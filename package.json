@@ -1,0 +1,19 @@
+{
+  "name": "kartverket-wcs-wmts",
+  "version": "1.0.0",
+  "description": "Demo application showcasing WCS 3D data",
+  "main": "app/main.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "kartverket",
+    "3d"
+  ],
+  "author": "Dzenan Dumpor",
+  "license": "MIT",
+  "dependencies": {
+    "@types/arcgis-js-api": "^4.9.0",
+    "typescript": "^3.1.6"
+  }
+}
