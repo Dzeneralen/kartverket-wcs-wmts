@@ -6,11 +6,15 @@
     "jsx": "react",
     "jsxFactory": "tsx",
     "target": "es5",
-    "lib": ["es2015", "dom"],
+    "lib": ["es2015", "dom", "scripthost"],
     "experimentalDecorators": true,
     "preserveConstEnums": true,
     "suppressImplicitAnyIndexErrors": true
   },
-  "include": ["./app/*"],
-  "exclude": ["node_modules"]
+  "include": [
+    "./app/*",
+    "./node_modules/dojo-typings/dojo/1.11/modules.d.ts",
+    "./node_modules/dojo-typings/dijit/1.11/modules.d.ts",
+    "./node_modules/dojo-typings/dojox/1.11/modules.d.ts"
+  ]
 }

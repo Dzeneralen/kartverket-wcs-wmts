@@ -30,18 +30,13 @@ const basemap = new Basemap({
   id: "topo4graatone"
 });
 
-debugger;
+const customGroundLayer = new WCSLayer({
+  id: "custom-wcs-elevation-layer-id",
+  title: "custom-wcs-elevation-layer"
+});
+
 const map = new EsriMap({
-  basemap: basemap,
-  ground: {
-    layers: [
-      new WCSLayer({
-        id: "custom-wcs-elevation-layer-id",
-        title: "custom-wcs-elevation-layer",
-        spatialReference: { wkid: 25833 }
-      })
-    ]
-  }
+  basemap: basemap
 });
 
 const view = new SceneView({
@@ -56,6 +51,11 @@ const view = new SceneView({
     ymax: 6672706.789498553,
     spatialReference: { wkid: 25833 }
   }
+});
+
+view.when(() => {
+  debugger;
+  map.ground.layers.add(customGroundLayer);
 });
 
 const displayWidget = getWcsDisplayWidget();
