@@ -1,8 +1,3 @@
-// To make TypeScript stop infering and
-// complaining about undeclared variable.
-// Imported globally with a normal script tag
-declare var TIFFParser: any;
-
 import Deferred = require("dojo/Deferred");
 
 import Extent = require("esri/geometry/Extent");
@@ -24,10 +19,6 @@ const getTile = (url: string) => {
         // request is done
 
         if (xhrRequest.status === 200) {
-          //const tiffParser = new TIFFParser();
-
-          //tiffParser.parseTIFF(xhrRequest.response);
-          //const dataUrl = tiffParser.canvas.toDataURL();
           deferred.resolve(xhrRequest.response);
         } else {
           deferred.reject("Failed to get response from WCS");
@@ -42,11 +33,6 @@ const getTile = (url: string) => {
 };
 
 const WCSElevationLayer = BaseElevationLayer.createSubclass({
-  // This function must associate elevation tiles with temperature
-  // values. This is achieved by getting the bounds (or extent)
-  // of the tile and fetching a temperature image based on
-  // the returned extent
-
   load: function() {
     this.fullExtent = {
       xmin: -2500000,
@@ -221,8 +207,8 @@ const WCSElevationLayer = BaseElevationLayer.createSubclass({
 
         return {
           values: heightValues,
-          width: tileSize, // pixelBlock.width,
-          height: tileSize, //pixelBlock.height,
+          width: tileSize,
+          height: tileSize,
           noDataValue: noDataValue
         };
       },
@@ -230,40 +216,6 @@ const WCSElevationLayer = BaseElevationLayer.createSubclass({
         console.warn("WCS failed me :(");
       }
     );
-
-    // fetch the image representing temperature for the extent of the tile.
-    // this method returns the pixel data of the image for the extent
-    // of the given elevation tile
-    // return this._temperature.fetchImage(extent, tileSize, tileSize).then(
-    //   function(data: any) {
-    //     var pixelBlock = data.pixelData.pixelBlock;
-    //     // contains the temperature values of each pixel in the image
-    //     var elevations = pixelBlock.pixels[0];
-    //     var stats = pixelBlock.statistics[0];
-    //     // pixels that don't contain any temperature values
-    //     var noDataValue = stats.noDataValue;
-
-    //     elevations.forEach(function(value: any, index: any, pixelData: any) {
-    //       if (value !== noDataValue) {
-    //         // multiply temperatures by the given factor
-    //         pixelData[index] = value * factor;
-    //       } else {
-    //         // areas with no temperature data (land)
-    //         // will be assigned the average sea surface
-    //         // temperature (17 degrees Celsius)
-    //         pixelData[index] = 17 * factor;
-    //       }
-    //     });
-
-    //     // return the modified temperatures as elevations
-    //     return {
-    //       values: elevations,
-    //       width: pixelBlock.width,
-    //       height: pixelBlock.height,
-    //       noDataValue: noDataValue
-    //     };
-    //   }.bind(this)
-    // );
   }
 });
 
