@@ -4,6 +4,13 @@
 
 This repository contains code for creating a custom ElevationLayer for use within the ArcGIS JS API 4.X from a Web Coverage Service (WCS) providing a Digital Terrain Model (DTM).
 
+## Getting started
+
+1. Install node.js
+2. Run `npm install` with this folder as the current working directory
+3. Run `npm start` for it to compile and start a web server
+4. Go to http://localhost:8080 to access the demo
+
 ## Warning
 
 The custom elevation layer based of WCS services is **highly** experimental and intended for demonstration pursposes.

@@ -4,6 +4,7 @@
   "description": "Demo application showcasing WCS 3D data",
   "main": "app/main.ts",
   "scripts": {
+    "start": "tsc && http-server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -15,6 +16,7 @@
   "dependencies": {
     "@types/arcgis-js-api": "^4.9.0",
     "dojo-typings": "^1.11.9",
+    "http-server": "^0.11.1",
     "typescript": "^3.1.6"
   }
 }
