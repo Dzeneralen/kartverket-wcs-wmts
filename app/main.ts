@@ -1,5 +1,6 @@
 import EsriMap = require("esri/Map");
 import Basemap = require("esri/Basemap");
+import Ground = require("esri/Ground");
 import WMTSLayer = require("esri/layers/WMTSLayer");
 import SceneView = require("esri/views/SceneView");
 import watchUtils = require("esri/core/watchUtils");
@@ -30,13 +31,18 @@ const basemap = new Basemap({
   id: "topo4graatone"
 });
 
-const customGroundLayer = new WCSLayer({
+const customWcsElevationLayer = new WCSLayer({
   id: "custom-wcs-elevation-layer-id",
   title: "custom-wcs-elevation-layer"
 });
 
+const customGroundLayer = new Ground({
+  layers: [customWcsElevationLayer]
+});
+
 const map = new EsriMap({
-  basemap: basemap
+  basemap: basemap,
+  ground: customGroundLayer
 });
 
 const view = new SceneView({
@@ -52,42 +58,3 @@ const view = new SceneView({
     spatialReference: { wkid: 25833 }
   }
 });
-
-view.when(() => {
-  map.ground.layers.add(customGroundLayer);
-});
-
-// watchUtils.whenTrue(view, "stationary", () => {
-//   const extent = view.extent;
-
-//   const { xmin, ymin, xmax, ymax } = extent;
-//   const heightToWidthRatio = extent.height / extent.width;
-
-//   const imageWidth = 256;
-//   const imageHeight = 256 * heightToWidthRatio;
-
-//   const url = `https://wms.geonorge.no/skwms1/wcs.dtm?SERVICE=WCS&VERSION=1.0.0&REQUEST=GetCoverage&FORMAT=xyz&WIDTH=${Math.floor(
-//     imageWidth
-//   )}&HEIGHT=${Math.floor(
-//     imageHeight
-//   )}&COVERAGE=land_utm33_10m&crs=EPSG:25833&BBOX=${xmin},${ymin},${xmax},${ymax}`;
-
-//   WCSLayer(url)
-//     .then(image => {
-//       imgNode.src = image;
-//     })
-//     .catch(error => {
-//       console.warn("WCS ERROR");
-//     });
-// });
-
-// WCSLayer(
-//   "https://wms.geonorge.no/skwms1/wcs.dtm?SERVICE=WCS&VERSION=1.0.0&REQUEST=GetCoverage&FORMAT=geotiff&WIDTH=256&HEIGHT=256&COVERAGE=land_utm33_10m&crs=EPSG:25833&BBOX=213029,6638602,309501,6735074"
-// )
-//   .then(image => {
-//     debugger;
-//     imgNode.src = image;
-//   })
-//   .catch(err => {
-//     debugger;
-//   });

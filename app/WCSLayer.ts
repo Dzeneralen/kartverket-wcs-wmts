@@ -27,7 +27,11 @@ const getTile = (url: string) => {
     };
 
     xhrRequest.send();
-  } catch (exception) {}
+  } catch (exception) {
+    const msg = "xhr to wcs failed";
+    console.warn(msg);
+    deferred.reject(msg);
+  }
 
   return deferred.promise;
 };
