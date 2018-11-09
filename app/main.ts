@@ -54,26 +54,8 @@ const view = new SceneView({
 });
 
 view.when(() => {
-  debugger;
   map.ground.layers.add(customGroundLayer);
 });
-
-const displayWidget = getWcsDisplayWidget();
-const imgNode = displayWidget.firstChild as HTMLImageElement;
-view.ui.add(displayWidget, "bottom-right");
-
-function getWcsDisplayWidget() {
-  const container = document.createElement("div");
-  container.className = "esri-widget";
-  container.style.cssText = "padding: 0.2rem; background: #fff";
-
-  const img = document.createElement("img");
-  img.src = "https://via.placeholder.com/256";
-
-  container.appendChild(img);
-
-  return container;
-}
 
 // watchUtils.whenTrue(view, "stationary", () => {
 //   const extent = view.extent;

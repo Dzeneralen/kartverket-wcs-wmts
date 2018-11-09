@@ -17,19 +17,18 @@ const getTile = (url: string) => {
     var xhrRequest = new XMLHttpRequest();
 
     xhrRequest.open("GET", url, true);
-    xhrRequest.responseType = "arraybuffer";
+    xhrRequest.responseType = "text";
 
     xhrRequest.onreadystatechange = function() {
       if (xhrRequest.readyState === 4) {
         // request is done
 
         if (xhrRequest.status === 200) {
-          const tiffParser = new TIFFParser();
+          //const tiffParser = new TIFFParser();
 
-          tiffParser.parseTIFF(xhrRequest.response);
-          const dataUrl = tiffParser.canvas.toDataURL();
-
-          deferred.resolve(dataUrl);
+          //tiffParser.parseTIFF(xhrRequest.response);
+          //const dataUrl = tiffParser.canvas.toDataURL();
+          deferred.resolve(xhrRequest.response);
         } else {
           deferred.reject("Failed to get response from WCS");
         }
@@ -192,8 +191,8 @@ const WCSElevationLayer = BaseElevationLayer.createSubclass({
   },
 
   fetchTile: function(level: number, row: number, col: number) {
-    var bounds = this.getTileBounds(level, row, col);
-    var tileSize = this.tileInfo.size[0] + 1;
+    const bounds = this.getTileBounds(level, row, col);
+    const tileSize: number = this.tileInfo.size[0] + 1;
     var extent = new Extent({
       xmin: bounds[0],
       ymin: bounds[1],
@@ -207,14 +206,21 @@ const WCSElevationLayer = BaseElevationLayer.createSubclass({
     const format = "xyz";
     const url = `https://wms.geonorge.no/skwms1/wcs.dtm?SERVICE=WCS&VERSION=1.0.0&REQUEST=GetCoverage&FORMAT=${format}&WIDTH=${tileSize}&HEIGHT=${tileSize}&COVERAGE=land_utm33_10m&crs=EPSG:25833&BBOX=${xmin},${ymin},${xmax},${ymax}`;
 
-    const noDataValue = 0;
+    const noDataValue = 1000;
 
     return getTile(url).then(
       response => {
-        const xyzArray = response.split("\n");
+        const xyzArray = response.replace(/nan/g, "0").split("\n");
+
+        const exaggeration = 2;
+        const heightValues = xyzArray.map(
+          xyzSpaceDelimited => +xyzSpaceDelimited.split(" ")[2] * exaggeration
+        );
+
+        let dummyValues = new Array(tileSize * tileSize).map(val => 0);
 
         return {
-          values: new Array(256 * 256),
+          values: heightValues,
           width: tileSize, // pixelBlock.width,
           height: tileSize, //pixelBlock.height,
           noDataValue: noDataValue
@@ -222,12 +228,6 @@ const WCSElevationLayer = BaseElevationLayer.createSubclass({
       },
       error => {
         console.warn("WCS failed me :(");
-        return {
-          values: new Array(256 * 256),
-          width: tileSize, // pixelBlock.width,
-          height: tileSize, //pixelBlock.height,
-          noDataValue: noDataValue
-        };
       }
     );
 
