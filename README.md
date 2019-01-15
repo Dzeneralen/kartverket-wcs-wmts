@@ -2,7 +2,7 @@
 
 ## Content
 
-This repository contains code for creating a custom ElevationLayer for use within the ArcGIS JS API 4.X from a Web Coverage Service (WCS) providing a Digital Terrain Model (DTM).
+This repository contains code for creating a custom ElevationLayer for use within the ArcGIS JS API 4.X from a Web Coverage Service (WCS) providing a Digital Terrain Model (DTM). Demo application can be found at [https://kartverketdemo.azurewebsites.net/](https://kartverketdemo.azurewebsites.net/).
 
 ![Bird view image of Vestfjorddalen rendered in 3D](https://github.com/Dzeneralen/kartverket-wcs-wmts/blob/master/screenshot.png?raw=true "Image of Vestfjorddalen")
 
